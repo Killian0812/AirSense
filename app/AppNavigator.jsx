@@ -9,6 +9,7 @@ import Home from "./screens/Home";
 import SecondScreen from "./screens/SecondScreen";
 import About from "./screens/About";
 import Profile from "./screens/Profile";
+import Settings from "./screens/Settings";
 
 const MainStack = createNativeStackNavigator();
 const Tabs = createBottomTabNavigator();
@@ -30,34 +31,46 @@ const MainTabs = () => {
         component={Home}
         options={{
           tabBarLabel: ({ focused }) => (
-            <TabBarText focused={focused} title="Home" />
+            <TabBarText focused={focused} title="AQI Map" />
           ),
           tabBarIcon: ({ focused }) => (
-            <TabBarIcon focused={focused} icon={"home"} />
+            <TabBarIcon focused={focused} icon={"map"} />
           ),
         }}
       />
       <Tabs.Screen
-        name="Profile"
+        name="Charts"
         component={Profile}
         options={{
           tabBarLabel: ({ focused }) => (
-            <TabBarText focused={focused} title="Profile" />
+            <TabBarText focused={focused} title="Charts" />
           ),
           tabBarIcon: ({ focused }) => (
-            <TabBarIcon focused={focused} icon={"person"} />
+            <TabBarIcon focused={focused} icon={"stats-chart-sharp"} />
           ),
         }}
       />
       <Tabs.Screen
-        name="About"
+        name="Lookup"
         component={About}
         options={{
           tabBarLabel: ({ focused }) => (
-            <TabBarText focused={focused} title="About" />
+            <TabBarText focused={focused} title="Lookup" />
           ),
           tabBarIcon: ({ focused }) => (
-            <TabBarIcon focused={focused} icon={"information-circle"} />
+            <TabBarIcon focused={focused} icon={"search"} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="Settings"
+        component={Settings}
+        options={{
+          tabBarLabel: ({ focused }) => (
+            <TabBarText focused={focused} title="Settings" />
+          ),
+          tabBarIcon: ({ focused }) => (
+            <TabBarIcon focused={focused} icon={"settings"} />
           ),
         }}
       />
