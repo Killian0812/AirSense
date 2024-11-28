@@ -42,6 +42,13 @@
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
         }
+      ],
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "Allow AirSense to use your location.",
+          "isAndroidBackgroundLocationEnabled": true
+        }
       ]
     ],
     "experiments": {
