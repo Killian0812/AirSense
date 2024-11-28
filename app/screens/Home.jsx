@@ -1,6 +1,8 @@
 import React from "react";
 import { View } from "react-native";
-import MapView, { PROVIDER_GOOGLE, Circle } from 'react-native-maps';
+import MapView, { PROVIDER_GOOGLE, Circle, Marker } from 'react-native-maps';
+import * as Location from 'expo-location';
+import { useState, useEffect } from "react";
 
 const data = [
   {
@@ -35,6 +37,24 @@ const getAQIColor = (aqi) => {
 };
 
 export default function ({ navigation }) {
+  const [currentLocation, setCurrentLocation] = useState(null);
+
+  useEffect(() => {
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        console.error('Permission to access location was denied');
+        return;
+      }
+
+      let location = await Location.getCurrentPositionAsync({});
+      setCurrentLocation({
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+      });
+    })();
+  }, []);
+
   return (
     <View
       style={{
@@ -70,6 +90,14 @@ export default function ({ navigation }) {
             fillColor={getAQIColor(location.aqi)}
           />
         ))}
+
+        {currentLocation && (
+          <Marker
+            coordinate={currentLocation}
+            title="Your Location"
+            description="You are here are"
+          />
+        )}
       </MapView>
     </View>
   );
