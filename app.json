@@ -11,9 +11,14 @@
     "ios": {
       "supportsTablet": true,
       "config": {
-        "googleMapsApiKey": ""
+        "googleMapsApiKey": "AIzaSyBfJ1HyKeTGunco_uIiqR0KnAhLOxPFXX4"
       },
       "bundleIdentifier": "com.killian0812.airsense"
+    },
+    "splash": {
+      "image": "./assets/images/splash.png",
+      "imageWidth": 200,
+      "resizeMode": "contain"
     },
     "android": {
       "adaptiveIcon": {
@@ -22,7 +27,7 @@
       },
       "config": {
         "googleMaps": {
-          "apiKey": ""
+          "apiKey": "AIzaSyBfJ1HyKeTGunco_uIiqR0KnAhLOxPFXX4"
         }
       },
       "package": "com.killian0812.airsense"
@@ -37,8 +42,7 @@
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/splash-icon.png",
-          "imageWidth": 200,
+          "image": "./assets/images/splash.png",
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
         }

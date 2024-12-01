@@ -1,5 +1,6 @@
 import React from "react";
 import { ThemeProvider } from "react-native-rapi-ui";
+import { NotificationProvider } from "./NotificationProvider";
 import { useEffect } from "react";
 import AppNavigator from "./AppNavigator";
 import * as Location from 'expo-location';
@@ -61,8 +62,10 @@ export default function Index() {
   }, []);
 
   return (
-    <ThemeProvider>
-      <AppNavigator />
-    </ThemeProvider>
+    <NotificationProvider>
+      <ThemeProvider>
+        <AppNavigator />
+      </ThemeProvider>
+    </NotificationProvider>
   );
 }
