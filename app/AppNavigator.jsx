@@ -8,7 +8,7 @@ import TabBarText from "./components/utils/TabBarText";
 import Home from "./screens/Home";
 import SecondScreen from "./screens/SecondScreen";
 import About from "./screens/About";
-import Profile from "./screens/Profile";
+import Charts from "./screens/Charts";
 import Settings from "./screens/Settings";
 
 const MainStack = createNativeStackNavigator();
@@ -40,7 +40,7 @@ const MainTabs = () => {
       />
       <Tabs.Screen
         name="Charts"
-        component={Profile}
+        component={Charts}
         options={{
           tabBarLabel: ({ focused }) => (
             <TabBarText focused={focused} title="Charts" />

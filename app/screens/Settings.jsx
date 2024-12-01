@@ -24,23 +24,8 @@ export default function ({ navigation }) {
         <Section>
           <SectionContent>
             <Text fontWeight="bold" style={{ textAlign: "center" }}>
-              These UI components provided by Rapi UI
+              User settings
             </Text>
-            <Button
-              style={{ marginTop: 10 }}
-              text="Rapi UI Documentation"
-              status="info"
-              onPress={() => Linking.openURL("https://rapi-ui.kikiding.space/")}
-            />
-            <Button
-              text="Go to second screen"
-              onPress={() => {
-                navigation.navigate("SecondScreen");
-              }}
-              style={{
-                marginTop: 10,
-              }}
-            />
 
             <Button
               text={isDarkmode ? "Light Mode" : "Dark Mode"}
@@ -51,6 +36,16 @@ export default function ({ navigation }) {
                 } else {
                   setTheme("dark");
                 }
+              }}
+              style={{
+                marginTop: 10,
+              }}
+            />
+
+            <Button
+              text="About us"
+              onPress={() => {
+                navigation.navigate("SecondScreen");
               }}
               style={{
                 marginTop: 10,

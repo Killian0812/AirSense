@@ -94,8 +94,8 @@ export default function ({ navigation }) {
         {currentLocation && (
           <Marker
             coordinate={currentLocation}
-            title="Your Location"
-            description="You are here are"
+            title="Current Location"
+            description="You are here"
           />
         )}
       </MapView>
