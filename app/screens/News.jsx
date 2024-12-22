@@ -4,19 +4,6 @@ import { Layout } from 'react-native-rapi-ui';
 import { WebView } from 'react-native-webview';
 
 export default function ({ navigation }) {
-	const injectedJavaScript = `
-    (function() {
-      const forecastElement = document.querySelector('#forecast');
-      const text = forecastElement.querySelector('.aqi-forecast__get-app-text');
-      text.remove();
-
-      document.body.innerHTML = '';
-      document.body.style.cssText = window.getComputedStyle(document.body).cssText;
-
-      document.body.appendChild(forecastElement);
-    })();
-  `;
-
 	return (
 		<Layout>
 			<View
@@ -34,7 +21,6 @@ export default function ({ navigation }) {
 					source={{
 						uri: `https://www.iqair.com/vi/vietnam/hanoi`,
 					}}
-					injectedJavaScript={injectedJavaScript}
 				/>
 			</View>
 		</Layout>

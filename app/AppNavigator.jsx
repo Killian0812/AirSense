@@ -7,7 +7,7 @@ import TabBarText from "./components/utils/TabBarText";
 
 import Home from "./screens/Home";
 import SecondScreen from "./screens/SecondScreen";
-import Forecast from "./screens/Forecast";
+import News from "./screens/News";
 import Lookup from "./screens/Lookup";
 import Charts from "./screens/Charts";
 import Settings from "./screens/Settings";
@@ -59,19 +59,19 @@ const MainTabs = () => {
             <TabBarText focused={focused} title="Lookup" />
           ),
           tabBarIcon: ({ focused }) => (
-            <TabBarIcon focused={focused} icon={"search"} />
+            <TabBarIcon focused={focused} icon={"analytics"} />
           ),
         }}
       />
       <Tabs.Screen
-        name="Forecast"
-        component={Forecast}
+        name="News"
+        component={News}
         options={{
           tabBarLabel: ({ focused }) => (
-            <TabBarText focused={focused} title="Forecast" />
+            <TabBarText focused={focused} title="News" />
           ),
           tabBarIcon: ({ focused }) => (
-            <TabBarIcon focused={focused} icon={"analytics"} />
+            <TabBarIcon focused={focused} icon={"newspaper"} />
           ),
         }}
       />

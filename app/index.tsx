@@ -2,6 +2,7 @@ import React from "react";
 import { ThemeProvider } from "react-native-rapi-ui";
 import { NotificationProvider } from "./NotificationProvider";
 import { useEffect } from "react";
+import axios from 'axios';
 import AppNavigator from "./AppNavigator";
 import * as Location from 'expo-location';
 import * as TaskManager from 'expo-task-manager';
@@ -19,16 +20,15 @@ TaskManager.defineTask(LOCATION_TASK_NAME, async ({ data, error }: { data: any, 
     const location = locations[0];
 
     try {
-      await fetch('https://first-shepherd-legible.ngrok-free.app/location', {
-        method: 'POST',
+      let response = await axios.post('https://airquality-bor1.onrender.com/api/v1/locations', {
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+      }, {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          latitude: location.coords.latitude,
-          longitude: location.coords.longitude,
-        }),
       });
+      console.log(response.data);
     } catch (err) {
       console.error('Error sending location:', err);
     }
@@ -55,8 +55,8 @@ export default function Index() {
       // Start the background location task
       await Location.startLocationUpdatesAsync(LOCATION_TASK_NAME, {
         accuracy: Location.Accuracy.High,
-        distanceInterval: 50, // Update every 50 meters
-        deferredUpdatesInterval: 1000 * 30, // Update every 30 secs
+        distanceInterval: 20, // Update every 20 meters
+        deferredUpdatesInterval: 1000 * 15, // Update every 15 secs
       });
     })();
   }, []);

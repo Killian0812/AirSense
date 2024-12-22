@@ -1,18 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Button, Text, Alert, ScrollView } from 'react-native';
-import { Layout } from 'react-native-rapi-ui';
+import { Layout, Button as StyledButton, useTheme } from 'react-native-rapi-ui';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import axios from 'axios';
-import { LineChart } from 'react-native-chart-kit';
-import { Dimensions } from 'react-native';
+import { LineChart, } from 'react-native-chart-kit';
 
 export default function ({ navigation }) {
 	const [startDate, setStartDate] = useState(new Date());
 	const [endDate, setEndDate] = useState(new Date());
 	const [period, setPeriod] = useState('DAY');
 	const [aqiData, setAqiData] = useState([]);
+	const [predictionData, setPredictionData] = useState(null);
 	const [showStartPicker, setShowStartPicker] = useState(false);
 	const [showEndPicker, setShowEndPicker] = useState(false);
+	const { isDarkmode } = useTheme();
 
 	const fetchAqiData = async () => {
 		const start = startDate.toISOString();
@@ -32,9 +33,25 @@ export default function ({ navigation }) {
 		}
 	};
 
+	const fetchPredictData = async () => {
+		const response = await axios.get('https://airquality-bor1.onrender.com/api/v1/aqi/prediction');
+		if (response.data.code === 200) {
+			setPredictionData(response.data);
+		} else {
+			Alert.alert('Error', response.data.message);
+		}
+	}
+
+	useEffect(() => {
+		fetchPredictData();
+	}, []);
+
 	const processChartData = () => {
-		const labels = aqiData.map(item =>
-			item.startTime.split('T')[period == 'HOUR' ? 1 : 0]);
+		const labels = aqiData.map(item => {
+			if (period === 'DAY') return item.startTime.split('T')[0];
+			return item.startTime.replace('T', ' ').slice(0, -3);
+		}
+		);
 
 		const data = aqiData.map(item => item.aqi);
 
@@ -87,23 +104,23 @@ export default function ({ navigation }) {
 				</View>
 
 				<View style={{ marginTop: 20 }}>
-					<Text>Period:</Text>
-					<Button title={`Period: ${period}`} onPress={() => setPeriod(period === 'HOUR' ? 'DAY' : 'HOUR')} />
+					<StyledButton text={`Period: ${period}`} onPress={() => setPeriod(period === 'HOUR' ? 'DAY' : 'HOUR')}
+						color='#ffa726' />
 				</View>
 
 				<View style={{ marginTop: 20 }}>
-					<Button title="Get AQI" onPress={fetchAqiData} />
+					<StyledButton text="Get AQI" onPress={fetchAqiData} />
 				</View>
 
-				{aqiData.length > 0 && (
+				{aqiData.length > 0 ?
 					<ScrollView
-						marginTop={100}
+						marginTop={30}
 						horizontal={true}
 						contentOffset={{ x: 10000, y: 0 }}
 						showsHorizontalScrollIndicator={false}>
 						<LineChart
 							data={processChartData()}
-							width={1000}
+							width={Math.max(1000, aqiData.length * (period == 'HOUR' ? 150 : 100))}
 							height={250}
 							xLabelsOffset={10}
 							chartConfig={{
@@ -124,18 +141,27 @@ export default function ({ navigation }) {
 							}}
 							withHorizontalLines={false}
 							withVerticalLines={false}
-							withHorizontalLabels={false}
+							withHorizontalLabels={true}
 							withInnerLines={false}
 							withOuterLines={false}
 							style={{
-								paddingRight: 20,
 								marginVertical: 8,
 								borderRadius: 16,
 							}}
 							bezier
 						/>
 					</ScrollView>
-				)}
+					:
+					<View style={{ marginTop: 30, height: 250, justifyContent: 'center', alignItems: 'center', borderColor: 'black', borderWidth: 1, borderRadius: 10, borderColor: isDarkmode ? '#FFFFFF' : '#000000' }} >
+						<Text style={{ textAlign: 'center', color: isDarkmode ? '#FFFFFF' : '#000000' }} > No data to display</Text>
+					</View>
+				}
+
+				<View style={{ marginTop: 20 }}>
+					<StyledButton text="AQI Predict" onPress={fetchPredictData} />
+				</View>
+
+				<Text>{predictionData}</Text>
 			</View>
 		</Layout >
 	);

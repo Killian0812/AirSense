@@ -14,7 +14,7 @@ export default function ({ navigation }) {
   return (
     <Layout>
       <TopNav
-        middleContent="Second Screen"
+        middleContent="About us"
         leftContent={
           <Ionicons
             name="chevron-back"
@@ -26,13 +26,19 @@ export default function ({ navigation }) {
       />
       <View
         style={{
-          flex: 1,
+          marginTop: 50,
+          height: 300,
           alignItems: "center",
-          justifyContent: "center",
+          justifyContent: "space-around",
         }}
       >
-        {/* This text using ubuntu font */}
-        <Text fontWeight="bold">This is the second screen</Text>
+
+        <Text style={{ fontWeight: 'bold' }}>GROUP 15 - AirSense</Text>
+        <Text>Nguyễn Mạnh Cường - 20210144</Text>
+        <Text>Tạ Quang Kiên - 20210502</Text>
+        <Text>Nguyễn Đức Khoa - 20215599</Text>
+        <Text>Trần Đắc Lương - 20215611</Text>
+        <Text>Nguyễn Đức Khoa - 20210487</Text>
       </View>
     </Layout>
   );
