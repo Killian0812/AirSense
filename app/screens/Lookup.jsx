@@ -1,18 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { View, Button, Text, Alert, ScrollView } from 'react-native';
+import { View, Text, Alert, ScrollView } from 'react-native';
 import { Layout, Button as StyledButton, useTheme } from 'react-native-rapi-ui';
-import DateTimePicker from '@react-native-community/datetimepicker';
+import DatePicker from 'react-native-date-picker'
 import axios from 'axios';
 import { LineChart, } from 'react-native-chart-kit';
 
-export default function ({ navigation }) {
+export default function () {
 	const [startDate, setStartDate] = useState(new Date());
 	const [endDate, setEndDate] = useState(new Date());
 	const [period, setPeriod] = useState('DAY');
 	const [aqiData, setAqiData] = useState([]);
 	const [predictionData, setPredictionData] = useState(null);
-	const [showStartPicker, setShowStartPicker] = useState(false);
-	const [showEndPicker, setShowEndPicker] = useState(false);
 	const { isDarkmode } = useTheme();
 
 	const fetchAqiData = async () => {
@@ -72,34 +70,12 @@ export default function ({ navigation }) {
 				<View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
 					<View style={{ flex: 1, marginRight: 10 }}>
 						<Text>Start Time:</Text>
-						<Button title={startDate.toLocaleString()} onPress={() => setShowStartPicker(true)} />
-						{showStartPicker && (
-							<DateTimePicker
-								value={startDate}
-								mode="datetime"
-								display="default"
-								onChange={(event, date) => {
-									setShowStartPicker(false);
-									if (date) setStartDate(date);
-								}}
-							/>
-						)}
+						<DatePicker mode='date' date={startDate} onDateChange={setStartDate} />
 					</View>
 
 					<View style={{ flex: 1, marginLeft: 10 }}>
 						<Text>End Time:</Text>
-						<Button title={endDate.toLocaleString()} onPress={() => setShowEndPicker(true)} />
-						{showEndPicker && (
-							<DateTimePicker
-								value={endDate}
-								mode="datetime"
-								display="default"
-								onChange={(event, date) => {
-									setShowEndPicker(false);
-									if (date) setEndDate(date);
-								}}
-							/>
-						)}
+						<DatePicker mode='date' date={endDate} onDateChange={setEndDate} />
 					</View>
 				</View>
 
