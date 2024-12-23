@@ -4,13 +4,14 @@ import { Layout, Button as StyledButton, useTheme } from 'react-native-rapi-ui';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import axios from 'axios';
 import { LineChart, } from 'react-native-chart-kit';
+import { getAQIColor } from '../components/utils/AqiLevelColor';
 
-export default function ({ navigation }) {
+export default function () {
 	const [startDate, setStartDate] = useState(new Date());
 	const [endDate, setEndDate] = useState(new Date());
 	const [period, setPeriod] = useState('DAY');
 	const [aqiData, setAqiData] = useState([]);
-	const [predictionData, setPredictionData] = useState(null);
+	const [predictionData, setPredictionData] = useState([]);
 	const [showStartPicker, setShowStartPicker] = useState(false);
 	const [showEndPicker, setShowEndPicker] = useState(false);
 	const { isDarkmode } = useTheme();
@@ -36,7 +37,8 @@ export default function ({ navigation }) {
 	const fetchPredictData = async () => {
 		const response = await axios.get('https://airquality-bor1.onrender.com/api/v1/aqi/prediction');
 		if (response.data.code === 200) {
-			setPredictionData(response.data);
+			setPredictionData(response.data.data);
+			console.log(response.data.data);
 		} else {
 			Alert.alert('Error', response.data.message);
 		}
@@ -78,7 +80,7 @@ export default function ({ navigation }) {
 								value={startDate}
 								mode="datetime"
 								display="default"
-								onChange={(event, date) => {
+								onChange={(_, date) => {
 									setShowStartPicker(false);
 									if (date) setStartDate(date);
 								}}
@@ -94,7 +96,7 @@ export default function ({ navigation }) {
 								value={endDate}
 								mode="datetime"
 								display="default"
-								onChange={(event, date) => {
+								onChange={(_, date) => {
 									setShowEndPicker(false);
 									if (date) setEndDate(date);
 								}}
@@ -161,7 +163,19 @@ export default function ({ navigation }) {
 					<StyledButton text="AQI Predict" onPress={fetchPredictData} />
 				</View>
 
-				<Text>{predictionData}</Text>
+				{predictionData.length > 0 && (
+					<View style={{ marginTop: 30 }}>
+						<Text style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 10 }}>AQI Predictions:</Text>
+						{predictionData.map((item) => (
+							<View key={item.id} style={{ flexDirection: 'row', justifyContent: 'space-between', padding: 10, borderBottomWidth: 1, borderBottomColor: '#ccc' }}>
+								<Text style={{ flex: 1 }}>{new Date(item.startTime).toLocaleString()}</Text>
+								<View style={{ backgroundColor: getAQIColor(item.aqi), padding: 2, borderRadius: 3 }}>
+									<Text style={{ textAlign: 'right', color: '#FFFFFF' }}>{item.aqi}</Text>
+								</View>
+							</View>
+						))}
+					</View>
+				)}
 			</View>
 		</Layout >
 	);
